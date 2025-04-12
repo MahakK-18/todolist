@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Mission Board</h1>
+      <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="lotr-form-group">
+                    <label class="lotr-label">{{ field.label }}</label>
+                    <div>{{ field }}</div>
+
+                </div>
+            {% endfor %}
+            <button type="submit">Add Quest</button>
+        </form>
+
+        <h2>Current Quests</h2>
+        <ul>
+            {% for task in tasks %}
+                <li class="task-item {% if task.completed %}completed{% endif %}">
+                    {{ task.title }} - {{ task.description }}
+                    <br>
+                    <small>Created: {{ task.created_at }}</small>
+                    <br>
+                    <a href="{% url 'update_task' task.id %}">Edit</a>
+                    <form action="{% url 'delete_task' task.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>No quests yet. Begin your journey!</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
