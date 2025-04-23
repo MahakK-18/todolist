@@ -22,7 +22,7 @@ def update_task(request, task_id):
             return redirect('todolist')
     else:
         form = TaskForm(instance=task)
-    return render(request, 'todolist.html', {'form': form, 'task': task})
+    return render(request, 'todolist_update.html', {'form': form, 'task': task})
 
 def delete_task(request, task_id):
     task = get_object_or_404(Task, pk=task_id)
